@@ -6,60 +6,93 @@ import 'package:surf_practice_magic_ball/ui/utils/app_colors.dart';
 
 part 'magic_ball_layers.dart';
 
-class MagicBall extends StatelessWidget {
+class MagicBall extends StatefulWidget {
   const MagicBall({required this.size, Key? key}) : super(key: key);
   final double size;
 
   @override
+  State<MagicBall> createState() => _MagicBallState();
+}
+
+class _MagicBallState extends State<MagicBall> with SingleTickerProviderStateMixin {
+  late Animation<double> _ballAnimation;
+  late Animation<double> _shadowAnimation;
+  late AnimationController _animationController;
+
+  @override
+  void initState(){
+    super.initState();
+    _animationController = AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
+    _ballAnimation = Tween(begin: 0.0, end: 20.0).animate(_animationController);
+    _shadowAnimation = Tween(begin: 0.92, end: 1.08).animate(_animationController);
+    _animationController.repeat(reverse: true);
+  }
+
+  @override
+  void dispose(){
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: size * 1.4,
+      height: widget.size * 1.4,
       child: Stack(
         fit: StackFit.expand,
         children: [
           Align(
             alignment: Alignment.topCenter,
-            child: _OuterBallLayer(
-              size: size,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  const _MediumBallLayer(
-                    child: _InnerBallLayer(),
-                  ),
-                  BlocBuilder<MagicBallCubit, MagicBallState>(
-                    builder: (context, state) {
-                      return switch (state) {
-                        MagicBallError() => _BallInnerShadow(
-                           color: Colors.red.withOpacity(0.9)
-                        ),
-                        _ => const SizedBox.shrink()
-                      };
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15, left: 15),
-                    child: _Stars(starsCount: 70, radius: size/2 - 20),
-                  ),
-                  BlocBuilder<MagicBallCubit, MagicBallState>(
-                    builder: (context, state) {
-                      return switch (state) {
-                        MagicBallLoading() => _BallInnerShadow(
-                          color: Colors.black.withOpacity(0.9),
-                        ),
-                        MagicBallLoaded(message: String message) => _BallInnerShadow(
-                          color: Colors.black.withOpacity(0.9),
-                          child: Text(
-                            message,
-                            style: Theme.of(context).textTheme.bodyLarge,
-                            textAlign: TextAlign.center,
+            child: AnimatedBuilder(
+              builder: (context, child) {
+                return Padding(
+                  padding: EdgeInsets.only(top: _ballAnimation.value),
+                  child: child,
+                );
+              },
+              animation: _ballAnimation,
+              child: _OuterBallLayer(
+                size: widget.size,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    const _MediumBallLayer(
+                      child: _InnerBallLayer(),
+                    ),
+                    BlocBuilder<MagicBallCubit, MagicBallState>(
+                      builder: (context, state) {
+                        return switch (state) {
+                          MagicBallError() => _BallInnerShadow(
+                             color: Colors.red.withOpacity(0.9)
                           ),
-                        ),
-                        _ => const SizedBox.shrink()
-                      };
-                    },
-                  ),
-                ]
+                          _ => const SizedBox.shrink()
+                        };
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15, left: 15),
+                      child: _Stars(starsCount: 70, radius: widget.size/2 - 20),
+                    ),
+                    BlocBuilder<MagicBallCubit, MagicBallState>(
+                      builder: (context, state) {
+                        return switch (state) {
+                          MagicBallLoading() => _BallInnerShadow(
+                            color: Colors.black.withOpacity(0.9),
+                          ),
+                          MagicBallLoaded(message: String message) => _BallInnerShadow(
+                            color: Colors.black.withOpacity(0.9),
+                            child: Text(
+                              message,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          _ => const SizedBox.shrink()
+                        };
+                      },
+                    ),
+                  ]
+                ),
               ),
             ),
           ),
@@ -73,8 +106,8 @@ class MagicBall extends StatelessWidget {
                   color = AppColors.outerBallColor;
               }
               return Padding(
-                padding:  EdgeInsets.only(top: size * 1.3),
-                child: _BallBottomShadow(size: size, color: color),
+                padding:  EdgeInsets.only(top: widget.size * 1.3),
+                child: _BallBottomShadow(animation: _shadowAnimation , color: color),
               );
             },
           ),

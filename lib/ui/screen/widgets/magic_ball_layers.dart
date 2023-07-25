@@ -3,34 +3,37 @@ part of 'magic_ball.dart';
 class _BallBottomShadow extends StatelessWidget {
   const _BallBottomShadow({
     Key? key,
-    required this.size,
+    required this.animation,
     required this.color,
   }) : super(key: key);
-  final double size;
+  final Animation<double> animation;
   final Color color;
 
   @override
   Widget build(BuildContext context) {
     return Transform(
       transform: Matrix4.identity()..rotateX(math.pi / 1.8),
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 10,
-              color: color,
-              spreadRadius: 40
+      child: AnimatedBuilder(
+        animation: animation,
+        builder: (context, child) {
+          return Container(
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                      blurRadius: 10,
+                      color: color,
+                      spreadRadius: 40 * animation.value
+                  ),
+                  BoxShadow(
+                      blurRadius: 40,
+                      color: AppColors.innerBallColor.withOpacity(0.5),
+                      spreadRadius: 100 * animation.value
+                  )
+                ]
             ),
-            BoxShadow(
-              blurRadius: 40,
-              color: AppColors.innerBallColor.withOpacity(0.5),
-              spreadRadius: 100
-            )
-          ]
-        ),
+          );
+        },
       ),
     );
   }
