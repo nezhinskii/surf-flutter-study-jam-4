@@ -1,7 +1,44 @@
 part of 'magic_ball.dart';
 
-class _BallShadow extends StatelessWidget{
-  const _BallShadow({
+class _BallBottomShadow extends StatelessWidget {
+  const _BallBottomShadow({
+    Key? key,
+    required this.size,
+    required this.color,
+  }) : super(key: key);
+  final double size;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Transform(
+      transform: Matrix4.identity()..rotateX(math.pi / 1.8),
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 10,
+              color: color,
+              spreadRadius: 40
+            ),
+            BoxShadow(
+              blurRadius: 40,
+              color: AppColors.innerBallColor.withOpacity(0.5),
+              spreadRadius: 100
+            )
+          ]
+        ),
+      ),
+    );
+  }
+}
+
+
+class _BallInnerShadow extends StatelessWidget{
+  const _BallInnerShadow({
     super.key,
     this.child,
     required this.color
@@ -124,7 +161,7 @@ class _OuterBallLayer extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               blurRadius: 25,
-              color: AppColors.outerBallColor.withOpacity(0.3),
+              color: AppColors.outerBallColor.withOpacity(0.5),
             ),
           ],
           shape: BoxShape.circle,
@@ -173,9 +210,7 @@ class _MediumBallLayer extends StatelessWidget {
 class _InnerBallLayer extends StatelessWidget {
   const _InnerBallLayer({
     super.key,
-    required this.child
   });
-  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -200,7 +235,6 @@ class _InnerBallLayer extends StatelessWidget {
           ),
         ],
       ),
-      child: child,
     );
   }
 }

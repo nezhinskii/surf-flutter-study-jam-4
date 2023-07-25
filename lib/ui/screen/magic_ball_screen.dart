@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class MagicBallScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ballSize = MediaQuery.of(context).size.shortestSide * 0.8;
+    final ballSize = min(MediaQuery.of(context).size.width * 0.8, MediaQuery.of(context).size.height * 0.4);
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -37,14 +38,10 @@ class MagicBallScreen extends StatelessWidget {
                   size: ballSize,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 50,
-                ),
-                child: Text("Нажмите на шар\nили потрясите телефон",
-                  style: Theme.of(context).textTheme.bodySmall,
-                  textAlign: TextAlign.center,
-                ),
+              const SizedBox(height: 40),
+              Text("Нажмите на шар\nили потрясите телефон",
+                style: Theme.of(context).textTheme.bodySmall,
+                textAlign: TextAlign.center,
               )
             ],
           ),
