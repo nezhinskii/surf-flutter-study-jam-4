@@ -9,6 +9,7 @@ import 'package:surf_practice_magic_ball/domain/repositories/magic_ball_reposito
 import 'package:surf_practice_magic_ball/services/magic_ball_service_impl.dart';
 import 'package:surf_practice_magic_ball/ui/screen/cubit/magic_ball_cubit.dart';
 import 'package:surf_practice_magic_ball/ui/screen/magic_ball_screen.dart';
+import 'package:surf_practice_magic_ball/ui/utils/app_colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,7 +51,7 @@ class MyApp extends StatelessWidget {
           ),
           bodyLarge: TextStyle(
             color: Color.fromARGB(255, 134, 250, 255),
-            fontSize: 24
+            fontSize: 24,
           )
         )
       ),

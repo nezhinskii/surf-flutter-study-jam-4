@@ -69,9 +69,15 @@ class _MagicBallState extends State<MagicBall> with SingleTickerProviderStateMix
                         };
                       },
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15, left: 15),
-                      child: _Stars(starsCount: 70, radius: widget.size/2 - 20),
+                    AnimatedBuilder(
+                      animation: _ballAnimation,
+                      builder: (context, child) {
+                        return Padding(
+                          padding: EdgeInsets.only(top: 15 -_ballAnimation.value / 1.7, left: 15),
+                          child: child,
+                        );
+                      },
+                      child: _Stars(starsCount: 70, radius: widget.size/2 - 20)
                     ),
                     BlocBuilder<MagicBallCubit, MagicBallState>(
                       builder: (context, state) {
