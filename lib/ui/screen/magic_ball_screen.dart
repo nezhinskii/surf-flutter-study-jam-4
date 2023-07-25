@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:surf_practice_magic_ball/ui/screen/cubit/magic_ball_cubit.dart';
 import 'package:surf_practice_magic_ball/ui/screen/widgets/magic_ball.dart';
 
 class MagicBallScreen extends StatelessWidget {
@@ -27,8 +29,13 @@ class MagicBallScreen extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.height / 2 - ballSize / 2,
               ),
-              MagicBall(
-                size: ballSize,
+              GestureDetector(
+                onTap: () {
+                  context.read<MagicBallCubit>().getPrediction();
+                },
+                child: MagicBall(
+                  size: ballSize,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(

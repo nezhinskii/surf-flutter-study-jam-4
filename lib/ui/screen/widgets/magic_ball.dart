@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:surf_practice_magic_ball/ui/screen/cubit/magic_ball_cubit.dart';
 import 'package:surf_practice_magic_ball/ui/utils/app_colors.dart';
 
 class MagicBall extends StatelessWidget {
@@ -11,11 +13,49 @@ class MagicBall extends StatelessWidget {
   Widget build(BuildContext context) {
     return _OuterBallLayer(
       size: size,
-      child: const _MediumBallLayer(
+      child: _MediumBallLayer(
         child: _InnerBallLayer(
-          child: SizedBox.shrink(),
+          child: BlocBuilder<MagicBallCubit, MagicBallState>(
+            builder: (context, state) {
+              return switch (state) {
+                MagicBallInitial() => const SizedBox.shrink(),
+                MagicBallLoading() => const _LoadingBallShadow(),
+                MagicBallLoaded(message: String message) => _LoadingBallShadow(
+                  child: Text(
+                    message,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                MagicBallError() => const SizedBox.shrink(),
+              };
+            },
+          ),
         ),
       ),
+    );
+  }
+}
+class _LoadingBallShadow extends StatelessWidget{
+  const _LoadingBallShadow({
+    super.key,
+    this.child
+  });
+  final Widget? child;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 25,
+              color: Colors.black.withOpacity(0.7),
+            ),
+          ],
+          shape: BoxShape.circle,
+          color: Colors.transparent,
+        ),
+        child: Center(child: child)
     );
   }
 }
