@@ -30,56 +30,54 @@ class SettingsScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium,
                 textAlign: TextAlign.center,
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-                  child: GestureDetector(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          Color currentColor = context.colors.outerBallColor;
-                          return AlertDialog(
-                            backgroundColor: Colors.black,
-                            content: SingleChildScrollView(
-                              child: ColorPicker(
-                                pickersEnabled: const <ColorPickerType, bool>{
-                                  ColorPickerType.wheel:true,
-                                  ColorPickerType.accent:false,
-                                  ColorPickerType.primary:false,
-                                },
-                                onColorChanged: (Color value) {
-                                  currentColor = value;
-                                },
-                                color: context.colors.outerBallColor,
-                              )
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                child: GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        Color currentColor = context.colors.outerBallColor;
+                        return AlertDialog(
+                          backgroundColor: Colors.black,
+                          content: SingleChildScrollView(
+                            child: ColorPicker(
+                              pickersEnabled: const <ColorPickerType, bool>{
+                                ColorPickerType.wheel:true,
+                                ColorPickerType.accent:false,
+                                ColorPickerType.primary:false,
+                              },
+                              onColorChanged: (Color value) {
+                                currentColor = value;
+                              },
+                              color: context.colors.outerBallColor,
+                            )
+                          ),
+                          actionsAlignment: MainAxisAlignment.center,
+                          actions: <Widget>[
+                            IconButton(
+                              icon: Icon(Icons.check, color: context.colors.mainColor,),
+                              onPressed: () {
+                                context.read<AppTheme>().theme = context.read<AppTheme>().theme.copyWith(
+                                  extensions: [
+                                    context.colors.copyWith(
+                                      outerBallColor: currentColor
+                                    ),
+                                  ]
+                                );
+                                Navigator.of(context).pop();
+                              },
                             ),
-                            actionsAlignment: MainAxisAlignment.center,
-                            actions: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.check, color: context.colors.mainColor,),
-                                onPressed: () {
-                                  context.read<AppTheme>().theme = context.read<AppTheme>().theme.copyWith(
-                                    extensions: [
-                                      context.colors.copyWith(
-                                        outerBallColor: currentColor
-                                      ),
-                                    ]
-                                  );
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: context.colors.outerBallColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: context.colors.outerBallColor,
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),

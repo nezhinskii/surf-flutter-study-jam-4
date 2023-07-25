@@ -39,7 +39,6 @@ class AppTheme extends ChangeNotifier{
   set theme(ThemeData theme) {
     _theme = theme;
     notifyListeners();
-    print("AAAAAAAAAAA");
   }
 }
 
