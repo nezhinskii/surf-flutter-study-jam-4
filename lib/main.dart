@@ -1,18 +1,26 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:surf_practice_magic_ball/data/repositories/magic_ball_repositor_impl.dart';
+import 'package:surf_practice_magic_ball/data/services/magic_ball_service.dart';
 import 'package:surf_practice_magic_ball/domain/repositories/magic_ball_repository.dart';
+import 'package:surf_practice_magic_ball/services/magic_ball_service_impl.dart';
 import 'package:surf_practice_magic_ball/ui/screen/cubit/magic_ball_cubit.dart';
 import 'package:surf_practice_magic_ball/ui/screen/magic_ball_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  final dio = Dio();
   runApp(
     MultiRepositoryProvider(
       providers: [
+        RepositoryProvider<MagicBallService>(
+          create: (_) => MagicBallServiceImpl(dio),
+        ),
+
         RepositoryProvider<MagicBallRepository>(
-          create: (_) => MagicBallRepositoryImpl(),
+          create: (context) => MagicBallRepositoryImpl(context.read<MagicBallService>()),
         )
       ],
       child: const MyApp()
