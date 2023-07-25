@@ -1,8 +1,8 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:surf_practice_magic_ball/ui/screen/cubit/magic_ball_cubit.dart';
-import 'package:surf_practice_magic_ball/ui/utils/app_colors.dart';
+import 'package:surf_practice_magic_ball/ui/screens/magic_ball/cubit/magic_ball_cubit.dart';
+import 'package:surf_practice_magic_ball/ui/utils/theme.dart';
 
 part 'magic_ball_layers.dart';
 
@@ -109,7 +109,7 @@ class _MagicBallState extends State<MagicBall> with SingleTickerProviderStateMix
                 case MagicBallError():
                   color = Colors.red;
                 default:
-                  color = AppColors.outerBallColor;
+                  color = context.colors.outerBallColor;
               }
               return Padding(
                 padding:  EdgeInsets.only(top: widget.size * 1.3),

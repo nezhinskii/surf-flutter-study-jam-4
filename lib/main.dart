@@ -2,14 +2,15 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 import 'package:surf_practice_magic_ball/data/repositories/magic_ball_repositor_impl.dart';
 import 'package:surf_practice_magic_ball/data/services/magic_ball_service.dart';
 import 'package:surf_practice_magic_ball/domain/repositories/magic_ball_repository.dart';
 import 'package:surf_practice_magic_ball/services/magic_ball_service_impl.dart';
-import 'package:surf_practice_magic_ball/ui/screen/cubit/magic_ball_cubit.dart';
-import 'package:surf_practice_magic_ball/ui/screen/magic_ball_screen.dart';
-import 'package:surf_practice_magic_ball/ui/utils/app_colors.dart';
+import 'package:surf_practice_magic_ball/ui/screens/magic_ball/magic_ball_screen.dart';
+import 'package:surf_practice_magic_ball/ui/utils/theme.dart';
+import 'ui/screens/magic_ball/cubit/magic_ball_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +24,10 @@ void main() async {
 
         RepositoryProvider<MagicBallRepository>(
           create: (context) => MagicBallRepositoryImpl(context.read<MagicBallService>()),
+        ),
+
+        ChangeNotifierProvider<AppTheme>(
+          create: (_) => AppTheme(),
         )
       ],
       child: const MyApp()
@@ -41,20 +46,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp
     ]);
     return MaterialApp(
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-        textTheme: const TextTheme(
-          bodySmall: TextStyle(
-            color: Color.fromARGB(255, 114, 114, 114),
-            fontSize: 15,
-          ),
-          bodyLarge: TextStyle(
-            color: Color.fromARGB(255, 134, 250, 255),
-            fontSize: 24,
-          )
-        )
-      ),
+      theme: context.watch<AppTheme>().theme,
       home: BlocProvider<MagicBallCubit>(
         create: (ctx) => MagicBallCubit(ctx.read<MagicBallRepository>()),
         child: const MagicBallScreen()

@@ -27,7 +27,7 @@ class _BallBottomShadow extends StatelessWidget {
                   ),
                   BoxShadow(
                       blurRadius: 40,
-                      color: AppColors.innerBallColor.withOpacity(0.5),
+                      color: context.colors.innerBallColor.withOpacity(0.5),
                       spreadRadius: 100 * animation.value
                   )
                 ]
@@ -111,7 +111,7 @@ class _Star extends StatelessWidget {
       size = random.nextDouble() * 5 + 3;
     } else {
       isLarge = false;
-      color = AppColors.starColors[random.nextInt(AppColors.starColors.length)];
+      color = context.colors.starColors[random.nextInt(context.colors.starColors.length)];
       size = random.nextInt(3) + 2;
     }
     return Container(
@@ -128,7 +128,7 @@ class _Star extends StatelessWidget {
           ),
           BoxShadow(
             blurRadius: 4,
-            color: AppColors.innerBallColor,
+            color: context.colors.innerBallColor,
             spreadRadius: size + 5,
             blurStyle: BlurStyle.outer
           )
@@ -155,16 +155,16 @@ class _OuterBallLayer extends StatelessWidget {
         height: size,
         width: size,
         decoration: BoxDecoration(
-          border: const Border(
-              left: BorderSide(width: 7, color: AppColors.outerBallColor),
-              right: BorderSide(width: 2, color: AppColors.outerBallColor),
-              top: BorderSide(width: 3, color: AppColors.outerBallColor),
-              bottom: BorderSide(width: 3, color: AppColors.outerBallColor)
+          border: Border(
+              left: BorderSide(width: 7, color: context.colors.outerBallColor),
+              right: BorderSide(width: 2, color: context.colors.outerBallColor),
+              top: BorderSide(width: 3, color: context.colors.outerBallColor),
+              bottom: BorderSide(width: 3, color: context.colors.outerBallColor)
           ),
           boxShadow: [
             BoxShadow(
               blurRadius: 25,
-              color: AppColors.outerBallColor.withOpacity(0.5),
+              color: context.colors.outerBallColor.withOpacity(0.5),
             ),
           ],
           shape: BoxShape.circle,
@@ -190,17 +190,17 @@ class _MediumBallLayer extends StatelessWidget {
           shape: BoxShape.circle,
           gradient: LinearGradient(
             colors: [
-              AppColors.mediumLayerBallColor.withOpacity(0.5),
+              context.colors.mediumLayerBallColor.withOpacity(0.5),
               Colors.black.withOpacity(0.5),
-              AppColors.mediumLayerBallColor.withOpacity(0.5)
+              context.colors.mediumLayerBallColor.withOpacity(0.5)
             ],
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,
           ),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
               blurRadius: 2,
-              color: AppColors.mediumLayerBallColor,
+              color: context.colors.mediumLayerBallColor,
               spreadRadius: 2,
             ),
           ],
@@ -222,18 +222,18 @@ class _InnerBallLayer extends StatelessWidget {
         shape: BoxShape.circle,
         gradient: LinearGradient(
           colors: [
-            AppColors.innerBallColor.withOpacity(0.6),
+            context.colors.innerBallColor.withOpacity(0.6),
             Colors.black.withOpacity(0.3),
             Colors.black.withOpacity(0.3),
-            AppColors.innerBallColor.withOpacity(0.6)
+            context.colors.innerBallColor.withOpacity(0.6)
           ],
           begin: const Alignment(-1, 0.4),
           end: const Alignment(1, -0.4),
         ),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
             blurRadius: 10,
-            color: AppColors.innerBallColor,
+            color: context.colors.innerBallColor,
             blurStyle: BlurStyle.outer,
           ),
         ],

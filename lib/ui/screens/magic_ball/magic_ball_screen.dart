@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shake/shake.dart';
-import 'package:surf_practice_magic_ball/ui/screen/cubit/magic_ball_cubit.dart';
-import 'package:surf_practice_magic_ball/ui/screen/widgets/magic_ball.dart';
+import 'package:surf_practice_magic_ball/ui/screens/magic_ball/cubit/magic_ball_cubit.dart';
+import 'package:surf_practice_magic_ball/ui/screens/magic_ball/widgets/magic_ball.dart';
+import 'package:surf_practice_magic_ball/ui/screens/settings/settings_screen.dart';
+import 'package:surf_practice_magic_ball/ui/utils/theme.dart';
 
 class MagicBallScreen extends StatefulWidget {
   const MagicBallScreen({Key? key}) : super(key: key);
@@ -44,14 +46,23 @@ class _MagicBallScreenState extends State<MagicBallScreen> {
   Widget build(BuildContext context) {
     final ballSize = min(MediaQuery.of(context).size.width * 0.8, MediaQuery.of(context).size.height * 0.4);
     return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color.fromARGB(255, 25, 12, 50), Colors.black]
-        )
+      decoration: BoxDecoration(
+        gradient: context.colors.backgroundGradient,
       ),
       child: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniStartTop,
+        floatingActionButton: IconButton(
+          icon: Icon(
+            Icons.settings,
+            color: context.colors.mainColor,
+          ),
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const SettingsScreen(),
+              )
+            );
+          },
+        ),
         backgroundColor: Colors.transparent,
         body: Center(
           child: Column(
